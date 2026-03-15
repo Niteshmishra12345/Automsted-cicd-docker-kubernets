@@ -1,14 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = "niteshmishra12/devops-static-site"
-        TAG = "${BUILD_NUMBER}"
-    }
-
     stages {
 
-        stage('Clone Repository') {
+        stage('Clone Code') {
             steps {
                 git 'https://github.com/Niteshmishra12345/automated-cicd-docker-kubernets.git'
             }
@@ -16,21 +11,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$TAG ./website'
-            }
-        }
-
-        stage('DockerHub Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-                }
+                sh 'docker build -t niteshmishra12/devops-static-site ./website'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push $DOCKER_IMAGE:$TAG'
+                sh 'docker push niteshmishra12/devops-static-site'
             }
         }
 
