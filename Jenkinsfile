@@ -5,7 +5,7 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                git 'https://github.com/Niteshmishra12345/automated-cicd-docker-kubernets.git'
+                git credentialsId: 'github-token', url: 'https://github.com/Niteshmishra12345/automated-cicd-docker-kubernets.git'
             }
         }
 
